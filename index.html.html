@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V&M Essences - Perfumería de Autor</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        // Configure Tailwind CSS theme
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            400: '#e5c158',
+                            500: '#d4af37',
+                            600: '#aa8c2c',
+                            700: '#806921',
+                        },
+                        dark: {
+                            900: '#0a0a0a',
+                            800: '#121212',
+                            700: '#1a1a1a',
+                            600: '#262626',
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        };
+
+        const PRODUCTS = [
+            {
+                id: 'club-de-nuit',
+                name: 'Club de Nuit Intense Man',
+                brand: 'Armaf',
+                price: 1890,
+                originalPrice: 2400,
+                category: 'hombres',
+                type: 'Eau de Toilette',
+                rating: 4.9,
+                reviewsCount: 38,
+                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ljw9q283-Og-Ul9KjAnwVL_poeJFyPjeZZs0FxXlS76yyeXhnIG8a4E&s=10',
+                description: 'Icónica fragancia masculina amaderada e intrépida. Abre con deslumbrantes notas de limón, grosella negra y manzana, seguidas de un corazón de abedul y jazmín con un fondo ahumado y almizclado irresistible.',
+                notes: {
+                    top: 'Limón, Grosella Negra, Manzana, Bergamota',
+                    heart: 'Abedul, Jazmín, Rosa',
+                    base: 'Almizcle, Ámbar gris, Patchouli, Vainilla'
+                },
+                volume: '105 ml',
+                badge: 'Más Vendido'
+            },
+            {
+                id: 'hayaati-lattafa',
+                name: 'Hayaati',
+                brand: 'Lattafa',
+                price: 2500,
+                originalPrice: 3000,
+                category: 'unisex',
+                type: 'Eau de Parfum',
+                rating: 4.8,
+                reviewsCount: 24,
+                image: 'https://fragarabic.com/cdn/shop/files/Hayaati_Lattafa_Eau_de_Parfum_Para_Hombre_con_su_caja_16cb1c33-8e3e-4872-be4b-00ea4f21a9a6.webp?v=1782377968&width=2048',
+                description: 'Una fragancia cálida y especiada con elegancia oriental. Mezcla notas frescas y amaderadas con un toque dulce sobrio perfecto para el día a día o eventos especiales.',
+                notes: {
+                    top: 'Nuez moscada, Pimienta rosa, Bergamota',
+                    heart: 'Incienso, Notas amaderadas, Canela',
+                    base: 'Ámbar, Vainilla, Líbano'
+                },
+                volume: '100 ml',
+                badge: 'Popular'
+            },
+            {
+                id: 'hawas-malibu',
+                name: 'Hawas Ice / Malibu',
+                brand: 'Rasasi',
+                price: 3500,
+                originalPrice: 4200,
+                category: 'hombres',
+                type: 'Eau de Parfum',
+                rating: 5.0,
+                reviewsCount: 42,
+                image: 'https://cdn-khglf.nitrocdn.com/CWVvcOztbqQIesFhYcTHdQcMmGhozsWp/assets/images/optimized/rev-7fd4c2c/i0.wp.com/irisfragancias.com/wp-content/uploads/2025/11/ac3b25cedd8346f67886153c24109f01.hawas-malibu.jpg',
+                description: 'Explosión de frescura acuática y frutal intensa. Hawas proyecta dinamismo y seducción con acordes marinos, ciruela y especias finas.',
+                notes: {
+                    top: 'Manzana, Bergamota, Limón, Canela',
+                    heart: 'Flor de azahar, Ciruela, Cardamomo',
+                    base: 'Ámbar gris, Almizcle, Maderas'
+                },
+                volume: '100 ml',
+                badge: 'Exclusivo'
+            },
+            {
+                id: 'lattafa-fakhar',
+                name: 'Fakhar Black / Pride',
+                brand: 'Lattafa',
+                price: 1750,
+                originalPrice: 2200,
+                category: 'hombres',
+                type: 'Eau de Parfum',
+                rating: 4.7,
+                reviewsCount: 19,
+                image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd6ftSSUveRYPehR8KK2Hyp_X_dIQ_vn4V-Qm_GsgVxw3TOFQv1Gl8jQ41&s=10',
+                description: 'Fragancia sofisticada con toques aromáticos y orientales. Destaca por su frescura inicial que evoluciona hacia tonos amaderados y dulces muy duraderos.',
+                notes: {
+                    top: 'Manzana, Bergamota, Jengibre',
+                    heart: 'Lavanda, Salvia, Enebro',
+                    base: 'Habatunka, Ámbar amaderado, Cedro'
+                },
+                volume: '100 ml',
+                badge: 'Oferta'
+            },
+            {
+                id: 'afnan-9pm',
+                name: '9 PM',
+                brand: 'Afnan',
+                price: 1950,
+                originalPrice: 2500,
+                category: 'hombres',
+                type: 'Eau de Parfum',
+                rating: 4.9,
+                reviewsCount: 31,
+                image: 'https://danisperfumes.com/wp-content/uploads/2025/03/IMG_20250304_121510-1024x1024.jpg',
+                description: 'El perfume nocturno definitivo. Manzana dulce, lavanda y canela combinadas con una base irresistible de vainilla y tonka ideal para salir de fiesta.',
+                notes: {
+                    top: 'Manzana, Lavanda, Canela, Bergamota',
+                    heart: 'Flor de Naranjo, Lirio de los valles',
+                    base: 'Vainilla, Habatonka, Ámbar, Patchouli'
+                },
+                volume: '100 ml',
+                badge: 'Tendencia'
+            }
+        ];
+    </script>
+    <style>
+        img {
+            transition: opacity 0.3s ease;
+        }
+        .gold-border-glow {
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+        }
+        .gold-border-glow:hover {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
+        }
+    </style>
+</head>
+<body class="bg-dark-900 text-gray-200 font-sans antialiased selection:bg-gold-500 selection:text-black">
+
+    <header class="sticky top-0 z-50 bg-dark-900/90 backdrop-blur-md border-b border-gold-500/20 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-full border border-gold-500/50 flex items-center justify-center bg-dark-800 group-hover:border-gold-400 transition-colors">
+                        <i class="fa-solid fa-crown text-gold-500 group-hover:scale-110 transition-transform duration-300"></i>
+                    </div>
+                    <div>
+                        <span class="font-cinzel text-xl sm:text-2xl font-bold tracking-widest text-white block leading-none">V&M</span>
+                        <span class="text-[9px] font-sans tracking-[0.3em] text-gold-400 uppercase block mt-1">Essences</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
+                    <a href="#inicio" class="text-gray-300 hover:text-gold-400 transition-colors">Inicio</a>
+                    <a href="#catalogo" class="text-gray-300 hover:text-gold-400 transition-colors">Catálogo Exclusivo</a>
+                    <a href="#mayoreo" class="text-gray-300 hover:text-gold-400 transition-colors">Ventas al Por Mayor</a>
+                    <a href="#contacto" class="text-gray-300 hover:text-gold-400 transition-colors">Contacto</a>
+                </nav>
+
+                <!-- Action Button -->
+                <div class="hidden sm:flex items-center space-x-4">
+                    <a href="https://wa.me/?text=Hola%20V%26M%20Essences,%20deseo%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full border border-gold-500/40 text-gold-400 text-xs font-semibold tracking-wider uppercase hover:bg-gold-500 hover:text-dark-900 transition-all duration-300 flex items-center gap-2 shadow-sm">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white p-2 rounded-lg" aria-label="Abrir Menú">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-800 border-b border-gold-500/20 px-4 pt-2 pb-6 space-y-3">
+            <a href="#inicio" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-gold-400 hover:bg-dark-700">Inicio</a>
+            <a href="#catalogo" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-gold-400 hover:bg-dark-700">Catálogo Exclusivo</a>
+            <a href="#mayoreo" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-gold-400 hover:bg-dark-700">Ventas al Por Mayor</a>
+            <a href="#contacto" class="mobile-link block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-gold-400 hover:bg-dark-700">Contacto</a>
+            <div class="pt-2">
+                <a href="https://wa.me/?text=Hola%20V%26M%20Essences,%20deseo%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noopener noreferrer" class="w-full justify-center px-5 py-2.5 rounded-full bg-gold-500 text-dark-900 text-xs font-bold tracking-wider uppercase flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp Directo
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="inicio" class="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-dark-900 border-b border-gold-500/10">
+        <div class="absolute inset-0 z-0">
+            <img 
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_wLRFuVv5U-mhkd5r9fsUBjHIkEFKPom2bV9LzFCOQA&s=10" 
+                alt="Perfumes de Autor - V&M Essences" 
+                class="w-full h-full object-cover object-center opacity-40 filter brightness-90 scale-105 transition-transform duration-1000"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&q=80&w=1960';"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/60 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-dark-900/80 via-transparent to-dark-900/80"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
+            <span class="inline-block px-4 py-1.5 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs uppercase tracking-widest font-semibold mb-6">
+                Colección Exclusiva de Autor
+            </span>
+            <h1 class="font-cinzel text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-wide mb-6 leading-tight">
+                V&M ESSENCES
+            </h1>
+            <p class="text-lg sm:text-2xl text-gray-300 font-light max-w-3xl mx-auto mb-10 leading-relaxed">
+                Descubre la magia de las fragancias de autor que definen tu presencia e identidad. Una selección de elixires sofisticados en tendencia mundial.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#catalogo" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gold-500 hover:bg-gold-400 text-dark-900 font-bold text-sm tracking-widest uppercase transition-all shadow-lg hover:shadow-gold-500/20 transform hover:-translate-y-0.5">
+                    Explorar Colección
+                </a>
+                <a href="#mayoreo" class="w-full sm:w-auto px-8 py-4 rounded-full border border-gray-600 hover:border-gold-400 text-white font-semibold text-sm tracking-widest uppercase transition-all backdrop-blur-sm bg-dark-800/40">
+                    Catálogo Mayorista
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="catalogo" class="py-24 bg-dark-900 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-gold-400 font-semibold uppercase tracking-widest text-xs">Exclusividad & Elegancia</span>
+                <h2 class="font-cinzel text-3xl sm:text-5xl font-bold text-white mt-2 mb-4">Fragancias Destacadas</h2>
+                <div class="w-24 h-1 bg-gold-500 mx-auto rounded-full"></div>
+                <p class="text-gray-400 mt-4 text-sm sm:text-base">Selección minuciosamente elegida por Víctor Mateo para brindar proyección y durabilidad incomparables.</p>
+            </div>
+
+            <!-- Perfumes Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Perfume Card 1 -->
+                <div class="bg-dark-800 rounded-2xl border border-gold-500/20 overflow-hidden flex flex-col justify-between group gold-border-glow transition-all duration-300">
+                    <div>
+                        <div class="relative overflow-hidden bg-dark-700 h-80 flex items-center justify-center p-6">
+                            <span class="absolute top-4 right-4 bg-gold-500/20 text-gold-400 border border-gold-500/40 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Top Ventas</span>
+                            <img 
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0ljw9q283-Og-Ul9KjAnwVL_poeJFyPjeZZs0FxXlS76yyeXhnIG8a4E&s=10" 
+                                alt="Club de Nuit Intense Man" 
+                                class="h-full max-h-64 object-contain group-hover:scale-105 transition-transform duration-500"
+                                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800';"
+                            />
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-cinzel text-xl font-bold text-white mb-2">Club de Nuit Intense Man</h3>
+                            <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                                Elegancia y magnetismo puro. Notas cítricas y amaderadas ideales para destacar en ocasiones especiales.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0 border-t border-dark-700/50 flex items-center justify-between mt-4">
+                        <div>
+                            <span class="text-xs text-gray-500 block">Precio Exclusivo</span>
+                            <span class="text-2xl font-bold text-gold-400">$1,890 <span class="text-xs text-gray-400 font-normal">DOP</span></span>
+                        </div>
+                        <a href="https://wa.me/?text=Hola%20V%26M%20Essences,%20me%20interesa%20comprar%20Club%20de%20Nuit%20Intense%20Man" target="_blank" class="px-4 py-2.5 rounded-xl bg-gold-500/10 hover:bg-gold-500 text-gold-400 hover:text-dark-900 border border-gold-500/30 text-xs font-bold transition-colors flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp"></i> Ordenar
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Perfume Card 2 -->
+                <div class="bg-dark-800 rounded-2xl border border-gold-500/20 overflow-hidden flex flex-col justify-between group gold-border-glow transition-all duration-300">
+                    <div>
+                        <div class="relative overflow-hidden bg-dark-700 h-80 flex items-center justify-center p-6">
+                            <span class="absolute top-4 right-4 bg-gold-500/20 text-gold-400 border border-gold-500/40 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Tendencia</span>
+                            <img 
+                                src="https://fragarabic.com/cdn/shop/files/Hayaati_Lattafa_Eau_de_Parfum_Para_Hombre_con_su_caja_16cb1c33-8e3e-4872-be4b-00ea4f21a9a6.webp?v=1782377968&width=2048" 
+                                alt="Lattafa Hayaati" 
+                                class="h-full max-h-64 object-contain group-hover:scale-105 transition-transform duration-500"
+                                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800';"
+                            />
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-cinzel text-xl font-bold text-white mb-2">Lattafa Hayaati</h3>
+                            <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                                Una esencia fresca, cálida y seductora con toques especiados y frutales de gran versatilidad.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0 border-t border-dark-700/50 flex items-center justify-between mt-4">
+                        <div>
+                            <span class="text-xs text-gray-500 block">Precio Exclusivo</span>
+                            <span class="text-2xl font-bold text-gold-400">$2,500 <span class="text-xs text-gray-400 font-normal">DOP</span></span>
+                        </div>
+                        <a href="https://wa.me/?text=Hola%20V%26M%20Essences,%20me%20interesa%20comprar%20Lattafa%20Hayaati" target="_blank" class="px-4 py-2.5 rounded-xl bg-gold-500/10 hover:bg-gold-500 text-gold-400 hover:text-dark-900 border border-gold-500/30 text-xs font-bold transition-colors flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp"></i> Ordenar
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Perfume Card 3 -->
+                <div class="bg-dark-800 rounded-2xl border border-gold-500/20 overflow-hidden flex flex-col justify-between group gold-border-glow transition-all duration-300">
+                    <div>
+                        <div class="relative overflow-hidden bg-dark-700 h-80 flex items-center justify-center p-6">
+                            <span class="absolute top-4 right-4 bg-gold-500/20 text-gold-400 border border-gold-500/40 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Premium</span>
+                            <img 
+                                src="https://cdn-khglf.nitrocdn.com/CWVvcOztbqQIesFhYcTHdQcMmGhozsWp/assets/images/optimized/rev-7fd4c2c/i0.wp.com/irisfragancias.com/wp-content/uploads/2025/11/ac3b25cedd8346f67886153c24109f01.hawas-malibu.jpg" 
+                                alt="Rasasi Hawas Malibu" 
+                                class="h-full max-h-64 object-contain group-hover:scale-105 transition-transform duration-500"
+                                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&q=80&w=800';"
+                            />
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-cinzel text-xl font-bold text-white mb-2">Rasasi Hawas Malibu</h3>
+                            <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                                Proyección vibrante y acuática, perfecta para destacar con un aroma único, fresco y de larga estela.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0 border-t border-dark-700/50 flex items-center justify-between mt-4">
+                        <div>
+                            <span class="text-xs text-gray-500 block">Precio Exclusivo</span>
+                            <span class="text-2xl font-bold text-gold-400">$3,500 <span class="text-xs text-gray-400 font-normal">DOP</span></span>
+                        </div>
+                        <a href="https://wa.me/?text=Hola%20V%26M%20Essences,%20me%20interesa%20comprar%20Rasasi%20Hawas%20Malibu" target="_blank" class="px-4 py-2.5 rounded-xl bg-gold-500/10 hover:bg-gold-500 text-gold-400 hover:text-dark-900 border border-gold-500/30 text-xs font-bold transition-colors flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp"></i> Ordenar
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Perfume Card 4 -->
+                <div class="bg-dark-800 rounded-2xl border border-gold-500/20 overflow-hidden flex flex-col justify-between group gold-border-glow transition-all duration-300">
+                    <div>
+                        <div class="relative overflow-hidden bg-dark-700 h-80 flex items-center justify-center p-6">
+                            <span class="absolute top-4 right-4 bg-gold-500/20 text-gold-400 border border-gold-500/40 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Selección Especial</span>
+                            <img 
+                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd6ftSSUveRYPehR8KK2Hyp_X_dIQ_vn4V-Qm_GsgVxw3TOFQv1Gl8jQ41&s=10" 
+                                alt="Lattafa Pride Fakhar" 
+                                class="h-full max-h-64 object-contain group-hover:scale-105 transition-transform duration-500"
+                                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800';"
+                            />
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-cinzel text-xl font-bold text-white mb-2">Lattafa Pride Fakhar</h3>
+                            <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                                Sofisticada combinación de acordes elegantes y envolventes. Una fragancia icónica recomendada por su distinción única.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0 border-t border-dark-700/50 flex items-center justify-between mt-4">
+                        <div>
+                            <span class="text-xs text-gray-500 block">Precio Exclusivo</span>
+                            <span class="text-2xl font-bold text-gold-400">$1,750 <span class="text-xs text-gray-400 font-normal">DOP</span></span>
+                        </div>
+                        <a href="https://wa.me/?text=Hola%20V%26M%20Essences,%20me%20interesa%20comprar%20Lattafa%20Pride%20Fakhar" target="_blank" class="px-4 py-2.5 rounded-xl bg-gold-500/10 hover:bg-gold-500 text-gold-400 hover:text-dark-900 border border-gold-500/30 text-xs font-bold transition-colors flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp"></i> Ordenar
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Perfume Card 5 -->
+                <div class="bg-dark-800 rounded-2xl border border-gold-500/20 overflow-hidden flex flex-col justify-between group gold-border-glow transition-all duration-300">
+                    <div>
+                        <div class="relative overflow-hidden bg-dark-700 h-80 flex items-center justify-center p-6">
+                            <span class="absolute top-4 right-4 bg-gold-500/20 text-gold-400 border border-gold-500/40 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Nocturno</span>
+                            <img 
+                                src="https://danisperfumes.com/wp-content/uploads/2025/03/IMG_20250304_121510-1024x1024.jpg" 
+                                alt="Afnan 9 PM" 
+                                class="h-full max-h-64 object-contain group-hover:scale-105 transition-transform duration-500"
+                                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800';"
+                            />
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-cinzel text-xl font-bold text-white mb-2">Afnan 9 PM</h3>
+                            <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                                Irresistible mezcla de manzana, canela y vainilla para un perfil seductor, duradero y moderno.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0 border-t border-dark-700/50 flex items-center justify-between mt-4">
+                        <div>
+                            <span class="text-xs text-gray-500 block">Precio Exclusivo</span>
+                            <span class="text-2xl font-bold text-gold-400">$1,950 <span class="text-xs text-gray-400 font-normal">DOP</span></span>
+                        </div>
+                        <a href="https://wa.me/?text=Hola%20V%26M%20Essences,%20me%20interesa%20comprar%20Afnan%209%20PM" target="_blank" class="px-4 py-2.5 rounded-xl bg-gold-500/10 hover:bg-gold-500 text-gold-400 hover:text-dark-900 border border-gold-500/30 text-xs font-bold transition-colors flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp"></i> Ordenar
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="mayoreo" class="py-20 bg-dark-800 border-y border-gold-500/20 relative overflow-hidden">
+        <div class="absolute right-0 top-0 translate-x-1/3 -translate-y-1/3 w-96 h-96 bg-gold-500/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="w-16 h-16 rounded-2xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center mx-auto mb-6">
+                <i class="fa-solid fa-boxes-packing text-2xl text-gold-400"></i>
+            </div>
+            <h2 class="font-cinzel text-3xl sm:text-4xl font-bold text-white mb-4">
+                ¿Interesado en Ventas al Por Mayor?
+            </h2>
+            <p class="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
+                Ofrecemos condiciones preferenciales y precios mayoristas altamente competitivos para revendedores, negocios y distribuidores.
+            </p>
+            
+            <div class="inline-flex flex-col sm:flex-row items-center justify-center gap-4 bg-dark-900/80 p-4 sm:p-6 rounded-2xl border border-gold-500/30">
+                <div class="text-left">
+                    <span class="text-xs text-gold-400 font-semibold tracking-wider uppercase block">Atención Mayorista Directa</span>
+                    <a href="mailto:V&MEssences@gmail.com" class="text-lg sm:text-2xl font-bold text-white hover:text-gold-400 transition-colors flex items-center gap-3 mt-1">
+                        <i class="fa-regular fa-envelope text-gold-500"></i> V&MEssences@gmail.com
+                    </a>
+                </div>
+                <a href="mailto:V&MEssences@gmail.com?subject=Solicitud%20de%20Cat%C3%A1logo%20Mayorista%20-%20V%26M%20Essences" class="mt-4 sm:mt-0 px-6 py-3 rounded-xl bg-gold-500 hover:bg-gold-400 text-dark-900 font-bold text-xs uppercase tracking-widest transition-all">
+                    Enviar Correo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="py-20 bg-dark-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-cinzel text-3xl font-bold text-white">Canales Directos de Atención</h2>
+                <p class="text-gray-400 mt-2 text-sm">Estamos listos para asesorarte en la elección de tu fragancia ideal.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <!-- WhatsApp -->
+                <a href="https://wa.me/?text=Hola%20V%26M%20Essences,%20deseo%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noopener noreferrer" class="p-6 rounded-2xl bg-dark-800 border border-dark-700 hover:border-gold-500/50 flex flex-col items-center text-center group transition-all duration-300">
+                    <div class="w-14 h-14 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    <h3 class="font-semibold text-white text-lg mb-1">WhatsApp</h3>
+                    <p class="text-gray-400 text-xs mb-3">Atención rápida y personalizada</p>
+                    <span class="text-gold-400 text-xs font-bold uppercase tracking-wider group-hover:underline">Contactar &rarr;</span>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="p-6 rounded-2xl bg-dark-800 border border-dark-700 hover:border-gold-500/50 flex flex-col items-center text-center group transition-all duration-300">
+                    <div class="w-14 h-14 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                    <h3 class="font-semibold text-white text-lg mb-1">Instagram</h3>
+                    <p class="text-gray-400 text-xs mb-3">Síguenos para novedades y colecciones</p>
+                    <span class="text-gold-400 text-xs font-bold uppercase tracking-wider group-hover:underline">Visitar Perfil &rarr;</span>
+                </a>
+
+                <!-- Telegram -->
+                <a href="https://t.me" target="_blank" rel="noopener noreferrer" class="p-6 rounded-2xl bg-dark-800 border border-dark-700 hover:border-gold-500/50 flex flex-col items-center text-center group transition-all duration-300">
+                    <div class="w-14 h-14 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-brands fa-telegram"></i>
+                    </div>
+                    <h3 class="font-semibold text-white text-lg mb-1">Telegram</h3>
+                    <p class="text-gray-400 text-xs mb-3">Canal VIP de promociones</p>
+                    <span class="text-gold-400 text-xs font-bold uppercase tracking-wider group-hover:underline">Unirse al Canal &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark-900 border-t border-dark-700 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <a href="#" class="inline-flex items-center gap-2 mb-4">
+                <i class="fa-solid fa-crown text-gold-500"></i>
+                <span class="font-cinzel text-xl font-bold tracking-widest text-white">V&M ESSENCES</span>
+            </a>
+            <p class="text-gray-500 text-xs max-w-md mx-auto mb-6">
+                Perfumería de autor por Víctor Mateo. Elevando tu estatus con aromas exclusivos.
+            </p>
+            <p class="text-gray-600 text-xs">
+                &copy; 2026 V&M Essences. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
